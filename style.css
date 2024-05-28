@@ -136,6 +136,14 @@ body {
   /* Ensure transition on transform */
 }
 
+.input-container.input1 {
+  order: 1;
+}
+
+.input-container.input2 {
+  order: 3;
+}
+
 .language-label {
   position: absolute;
   top: 20px;
@@ -178,6 +186,7 @@ body {
   justify-content: space-between;
   gap: 22px;
   align-items: center;
+  order: 2;
 }
 
 .charges {

@@ -42,19 +42,20 @@ document.addEventListener("DOMContentLoaded", function () {
   const inputContainer1 = document.querySelector(".input-container.input1");
   const inputContainer2 = document.querySelector(".input-container.input2");
 
+  // Set initial order values
+  inputContainer1.style.order = 1;
+  inputContainer2.style.order = 3;
+
   switchArrow.addEventListener("click", function () {
     // Apply translation effect
     inputContainer1.style.transform = "translateY(100%)";
     inputContainer2.style.transform = "translateY(-100%)";
 
     setTimeout(() => {
-      // Swap the containers in the DOM
-      const parent = inputContainer1.parentNode;
-      if (inputContainer1.nextSibling === inputContainer2) {
-        parent.insertBefore(inputContainer2, inputContainer1);
-      } else {
-        parent.insertBefore(inputContainer1, inputContainer2);
-      }
+      // Swap the order properties
+      const order1 = inputContainer1.style.order;
+      inputContainer1.style.order = inputContainer2.style.order;
+      inputContainer2.style.order = order1;
 
       // Reset the transform properties
       inputContainer1.style.transform = "";
