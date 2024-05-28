@@ -178,6 +178,10 @@ body {
   margin-right: 10px;
 }
 
+.phonetic {
+  opacity: 0.35;
+}
+
 /* Translate Button Section */
 
 .translate-section {

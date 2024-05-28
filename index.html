@@ -1,56 +1,72 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Poliiglot</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Poliiglot</title>
-  <link rel="stylesheet" href="style.css">
-  <script src=script.js defer></script>
-</head>
+  <body>
+    <div class="wrapper">
+      <!-- Choose Language Section -->
 
-<body>
-
-  <div class="wrapper">
-
-    <div class="language-section">
-      <div class="lang-box" id="box1">
-        <div class="flag"></div>
-        <div class="box-text">English</div>
-        <input type="text" class="language-input" placeholder="Enter Language">
+      <div class="language-section">
+        <div class="lang-box" id="box1">
+          <div class="flag"></div>
+          <div class="box-text">English</div>
+          <input
+            type="text"
+            class="language-input"
+            placeholder="Enter Language"
+          />
+        </div>
+        <div class="arrow"></div>
+        <div class="lang-box" id="box2">
+          <div class="flag"></div>
+          <div class="box-text">Parisian French</div>
+          <input
+            type="text"
+            class="language-input"
+            placeholder="Enter Language"
+          />
+        </div>
       </div>
-      <div class="arrow"></div>
-      <div class="lang-box" id="box2">
-        <div class="flag"></div>
-        <div class="box-text">Parisian French</div>
-        <input type="text" class="language-input" placeholder="Enter Language">
+      <div class="overlay"></div>
+
+      <!-- Input Text Section -->
+
+      <div class="input-container input1">
+        <span class="language-label">English</span>
+        <input
+          type="text"
+          class="text-input"
+          id="text-input1"
+          placeholder="Enter text to translate.."
+        />
+        <img
+          src="icons/microphone.svg"
+          alt="Microphone"
+          class="icon microphone"
+        />
+      </div>
+
+      <div class="translate-section">
+        <div class="charges icon">60</div>
+        <img src="icons/switch-arrow.svg" alt="Switch Arrow" class="icon" />
+        <button class="translate-button">TRANSLATE</button>
+      </div>
+
+      <div class="input-container input2">
+        <span class="language-label">Parisian French</span>
+        <input
+          type="text"
+          class="text-input"
+          id="text-input2"
+          placeholder="Saisissez le texte à traduire.."
+        />
       </div>
     </div>
-    <div class="overlay"></div>
-
-
-    <div class="input-container input1">
-      <span class="language-label">English</span>
-      <input type="text" class="text-input" id="text-input1" placeholder="Enter text to translate..">
-      <img src="icons/microphone.svg" alt="Microphone" class="icon microphone">
-    </div>
-
-
-    <div class="translate-section">
-      <div class="charges icon">60</div>
-      <img src="icons/switch-arrow.svg" alt="Switch Arrow" class="icon">
-      <button class="translate-button">TRANSLATE</button>
-    </div>
-
-
-    <div class="input-container input2">
-      <span class="language-label">Parisian French</span>
-      <input type="text" class="text-input" id="text-input2" placeholder="Saisissez le texte à traduire..">
-    </div>
-
-
-  </div>
-
-</body>
-
+  </body>
 </html>

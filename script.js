@@ -66,28 +66,28 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // Translation Code
 
-const languageInput = document.getElementById("languageInput");
-const textInput = document.getElementById("textInput");
+const textInput1 = document.getElementById("text-input1");
+const textInput2 = document.getElementById("text-input2");
+const translateButton = document.querySelector(".translate-button");
+
+const key = "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";
 
 function translateText() {
-  const language = document.getElementById("languageInput").value;
-  const text = document.getElementById("textInput").value;
-  const output = document.getElementById("translationOutput");
-
-  textInput.value = "";
+  const language = "Parisian French"; // Assuming the translation is to French
+  const text = textInput1.value;
 
   const requestBody = JSON.stringify({
-    model: "gpt-4o",
+    model: "gpt-4",
     messages: [
       {
         role: "system",
         content: `You are a highly accurate translator, rendering phrases just as a local would say them.
 
-Upon receiving "French," identify the primary language spoken there. If it's a specific language name, ensure any spelling errors are corrected.
+Upon receiving "${language}" identify the primary language spoken there. If it's a specific language name, ensure any spelling errors are corrected.
 
 Format: "Dialect: {language}"
 
-Translate "Hello" into this language, capturing the authentic local usage.
+Translate "${text}" into this language, capturing the authentic local usage.
 
 Include phonetic pronunciation for clarity. For languages using non-Latin scripts, provide the original text in brackets.
 
@@ -106,7 +106,7 @@ Format: "Translation: {translation} [{pronunciation}]"`,
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${apiKey}`,
+      Authorization: `Bearer ${key}`,
     },
     body: requestBody,
   })
@@ -127,14 +127,14 @@ Format: "Translation: {translation} [{pronunciation}]"`,
         ? translationMatch[1].trim()
         : "No translation found";
 
-      // Only display the translation (not the entire bot message)
-      displayBotMessage(`Translation in ${dialect}: "${text}"`);
-      displayBotMessage(`${translation}`);
+      // Display the translation in the second input box
+      textInput2.value = `${translation}`;
     })
     .catch((error) => {
       console.error("Error:", error);
-      displayBotMessage(
-        "Failed to connect. Please check your settings and try again.",
-      );
+      textInput2.value =
+        "Failed to connect. Please check your settings and try again.";
     });
 }
+
+translateButton.addEventListener("click", translateText);
