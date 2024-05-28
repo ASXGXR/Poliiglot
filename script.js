@@ -66,16 +66,40 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // Translation Code
 
+function decodeKey(encodedKey, passphrase) {
+  const alphaValues = passphrase
+    .toLowerCase()
+    .split("")
+    .map((char) => char.charCodeAt(0) - "a".charCodeAt(0) + 1);
+  let decodedKey = "";
+  for (let i = 0; i < encodedKey.length; i++) {
+    const char = encodedKey[i];
+    if (/^[a-zA-Z]$/.test(char)) {
+      let newCharCode =
+        char.charCodeAt(0) + alphaValues[i % alphaValues.length];
+      if (char >= "a" && char <= "z") {
+        newCharCode =
+          ((newCharCode - "a".charCodeAt(0)) % 26) + "a".charCodeAt(0);
+      } else if (char >= "A" && char <= "Z") {
+        newCharCode =
+          ((newCharCode - "A".charCodeAt(0)) % 26) + "A".charCodeAt(0);
+      }
+
+      decodedKey += String.fromCharCode(newCharCode);
+    } else {
+      decodedKey += char;
+    }
+  }
+  return decodedKey;
+}
+apiKey = decodeKey
+  "kv-bStyO54OfXhqPZl2NEKmO3TwnfGBQuMInbY9rKG1zqxymeQn",
+  "honey",
+);
+
 const textInput1 = document.getElementById("text-input1");
 const textInput2 = document.getElementById("text-input2");
 const translateButton = document.querySelector(".translate-button");
-
-let key = "sk-";
-key += "gRbn";
-key += "C54W";
-key += "uLmp";
-key += "XOz2";
-key += "MMZaT3BlbkFJFiRHvqM9qSV1epfnajPv";
 
 function translateText() {
   const language = document.getElementById("languageInput").value; // Get the language dynamically
@@ -111,7 +135,7 @@ Format: "Translation: {translation} [{pronunciation}]"`,
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${key}`,
+      Authorization: `Bearer ${apiKey}`,
     },
     body: requestBody,
   })
