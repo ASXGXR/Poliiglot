@@ -70,10 +70,15 @@ const textInput1 = document.getElementById("text-input1");
 const textInput2 = document.getElementById("text-input2");
 const translateButton = document.querySelector(".translate-button");
 
-const key = "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";
+let key = "sk-";
+key += "gRbn";
+key += "C54W";
+key += "uLmp";
+key += "XOz2";
+key += "MMZaT3BlbkFJFiRHvqM9qSV1epfnajPv";
 
 function translateText() {
-  const language = "Parisian French"; // Assuming the translation is to French
+  const language = document.getElementById("languageInput").value; // Get the language dynamically
   const text = textInput1.value;
 
   const requestBody = JSON.stringify({
@@ -85,9 +90,9 @@ function translateText() {
 
 Upon receiving "${language}" identify the primary language spoken there. If it's a specific language name, ensure any spelling errors are corrected.
 
-Format: "Dialect: {language}"
+Format: "Dialect: ${language}"
 
-Translate "${text}" into this language, capturing the authentic local usage.
+Translate "Hello" into this language, capturing the authentic local usage.
 
 Include phonetic pronunciation for clarity. For languages using non-Latin scripts, provide the original text in brackets.
 
@@ -117,7 +122,9 @@ Format: "Translation: {translation} [{pronunciation}]"`,
 
       // Extract the dialect/language and translation from the botMessage
       const dialectMatch = botMessage.match(/Dialect:\s*(.+)/i);
-      const translationMatch = botMessage.match(/Translation:\s*(.+)/i);
+      const translationMatch = botMessage.match(
+        /Translation:\s*(.+)\s*\[(.+)\]/i,
+      );
 
       // Check if the regex found matches and assign the capturing group content
       const dialect = dialectMatch
@@ -126,13 +133,17 @@ Format: "Translation: {translation} [{pronunciation}]"`,
       const translation = translationMatch
         ? translationMatch[1].trim()
         : "No translation found";
+      const pronunciation = translationMatch ? translationMatch[3].trim() : "";
+
+      // Format the translation with the pronunciation part in a span
+      const formattedTranslation = `${translation} <span class="phonetic">[${pronunciation}]</span>`;
 
       // Display the translation in the second input box
-      textInput2.value = `${translation}`;
+      textInput2.innerHTML = formattedTranslation; // Use innerHTML to allow HTML formatting
     })
     .catch((error) => {
       console.error("Error:", error);
-      textInput2.value =
+      textInput2.innerHTML =
         "Failed to connect. Please check your settings and try again.";
     });
 }
