@@ -66,43 +66,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // Translation Code
 
-function decodeKey(encodedKey, passphrase) {
-  const alphaValues = passphrase
-    .toLowerCase()
-    .split("")
-    .map((char) => char.charCodeAt(0) - "a".charCodeAt(0) + 1);
-  let decodedKey = "";
-  for (let i = 0; i < encodedKey.length; i++) {
-    const char = encodedKey[i];
-    if (/^[a-zA-Z]$/.test(char)) {
-      let newCharCode =
-        char.charCodeAt(0) + alphaValues[i % alphaValues.length];
-      if (char >= "a" && char <= "z") {
-        newCharCode =
-          ((newCharCode - "a".charCodeAt(0)) % 26) + "a".charCodeAt(0);
-      } else if (char >= "A" && char <= "Z") {
-        newCharCode =
-          ((newCharCode - "A".charCodeAt(0)) % 26) + "A".charCodeAt(0);
-      }
-
-      decodedKey += String.fromCharCode(newCharCode);
-    } else {
-      decodedKey += char;
-    }
-  }
-  return decodedKey;
-}
-apiKey = decodeKey
-  "kv-bStyO54OfXhqPZl2NEKmO3TwnfGBQuMInbY9rKG1zqxymeQn",
-  "honey",
-);
-
 const textInput1 = document.getElementById("text-input1");
 const textInput2 = document.getElementById("text-input2");
 const translateButton = document.querySelector(".translate-button");
 
+const key = "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";
+
 function translateText() {
-  const language = document.getElementById("languageInput").value; // Get the language dynamically
+  const language = "Parisian French"; // Assuming the translation is to French
   const text = textInput1.value;
 
   const requestBody = JSON.stringify({
@@ -114,9 +85,9 @@ function translateText() {
 
 Upon receiving "${language}" identify the primary language spoken there. If it's a specific language name, ensure any spelling errors are corrected.
 
-Format: "Dialect: ${language}"
+Format: "Dialect: {language}"
 
-Translate "Hello" into this language, capturing the authentic local usage.
+Translate "${text}" into this language, capturing the authentic local usage.
 
 Include phonetic pronunciation for clarity. For languages using non-Latin scripts, provide the original text in brackets.
 
@@ -135,7 +106,7 @@ Format: "Translation: {translation} [{pronunciation}]"`,
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${apiKey}`,
+      Authorization: `Bearer ${key}`,
     },
     body: requestBody,
   })
@@ -144,30 +115,25 @@ Format: "Translation: {translation} [{pronunciation}]"`,
       console.log("API Response:", data); // Log the full API response
       const botMessage = data.choices[0].message.content;
 
+      console.log("API Response:", botMessage); // Log the full API response
+
       // Extract the dialect/language and translation from the botMessage
       const dialectMatch = botMessage.match(/Dialect:\s*(.+)/i);
-      const translationMatch = botMessage.match(
-        /Translation:\s*(.+)\s*\[(.+)\]/i,
-      );
+      const translationMatch = botMessage.match(/Translation:\s*(.+)/i);
 
-      // Check if the regex found matches and assign the capturing group content
       const dialect = dialectMatch
         ? dialectMatch[1].trim()
         : "No dialect found";
       const translation = translationMatch
         ? translationMatch[1].trim()
         : "No translation found";
-      const pronunciation = translationMatch ? translationMatch[3].trim() : "";
-
-      // Format the translation with the pronunciation part in a span
-      const formattedTranslation = `${translation} <span class="phonetic">[${pronunciation}]</span>`;
 
       // Display the translation in the second input box
-      textInput2.innerHTML = formattedTranslation; // Use innerHTML to allow HTML formatting
+      textInput2.value = `${translation}`;
     })
     .catch((error) => {
       console.error("Error:", error);
-      textInput2.innerHTML =
+      textInput2.value =
         "Failed to connect. Please check your settings and try again.";
     });
 }
