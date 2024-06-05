@@ -1,6 +1,8 @@
 // Variables
 
-const key = process.env.API_KEY;
+const key = process.env.API_KEY
+
+console.log(`Your API key is: ${apiKey}`);
 
 // Reused Functions
 
