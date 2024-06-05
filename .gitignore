@@ -1,1 +1,1 @@
-node_modules/
+echo ".github" >> .gitignore
