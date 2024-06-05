@@ -391,29 +391,85 @@ small {
     padding: 5vw;
   }
 
-  .navbar {
-    gap: 16px;
-  }
-
   .wrapper {
     display: flex;
     flex-direction: column;
     width: 70%;
     align-items: center;
+    transition: margin-left 0.5s;
+    margin-left: 100px;
   }
+}
 
-  .language-section {
-    max-width: 400px;
-  }
+.language-section {
+  max-width: 400px;
+}
 
-  .langchoice-input {
-    width: 75%;
-  }
+.langchoice-input {
+  width: 75%;
+}
 
-  .langchoice-options {
-    width: 75%
-  }
+.langchoice-options {
+  width: 75%
+}
 
+.navbar {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100px;
+  position: fixed;
+  z-index: 999;
+  left: 48px;
+  background-color: #111;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  padding: 32px 0;
+  margin: 0;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-item img {
+  padding: 0;
+  margin: 0;
+}
+
+.nav-item img[src*="settings.svg"] {
+  padding: 0;
+  margin: 0;
+}
+
+.nav-item img[src*="french-flag.png"] {
+  padding: 0;
+  margin: 0;
+}
+
+.nav-item img[src*="translator.svg"] {
+  padding: 0;
+  margin: 0;
+}
+
+.nav-item p {
+  margin: 0;
+  font-size: 12px;
+}
+
+.library-padding {
+  padding: 0;
+  margin: 0;
+}
 }
 
 /* Remove the background for autofilled inputs (like previously selected items) */
