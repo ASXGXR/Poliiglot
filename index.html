@@ -23,47 +23,128 @@
     <!-- Main Section -->
 
     <div class="wrapper">
-      <!-- Choose Language Section -->
+      <!-- Language Section -->
 
       <div class="language-section">
         <div class="lang-box" id="box1">
-          <div class="flag"></div>
-          <div class="box-text">English</div>
-          <input
-            type="text"
-            class="language-input"
-            placeholder="Enter Language"
+          <img
+            src="https://flagsapi.com/GB/flat/64.png"
+            class="flag"
+            alt="English flag"
           />
+          <div class="box-text" id="box-text-1" lang="en">English</div>
         </div>
-        <div class="arrow"></div>
+        <div class="arrow">→</div>
         <div class="lang-box" id="box2">
-          <div class="flag"></div>
-          <div class="box-text">Parisian French</div>
-          <input
-            type="text"
-            class="language-input"
-            placeholder="Enter Language"
+          <img
+            src="https://flagsapi.com/FR/flat/64.png"
+            class="flag"
+            alt="French flag"
           />
+          <div class="box-text" id="box-text-2" lang="en">Parisian French</div>
         </div>
       </div>
-      <div class="overlay"></div>
+
+      <!-- Overlay -->
+
+      <div class="langchoice-overlay" id="langchoice-overlay">
+        <!-- Input Section -->
+        <div class="langchoice-input">
+          <img
+            src="icons/close.svg"
+            class="close-btn"
+            onclick="closeOverlay()"
+          />
+          <input
+            type="text"
+            id="lang-input"
+            placeholder="Enter Language or Place.."
+          />
+          <img
+            src="icons/confirm.svg"
+            class="confirm-arrow"
+            alt="Confirm Arrow"
+          />
+        </div>
+
+        <!-- Options Section -->
+        <div class="langchoice-options">
+          <li onclick="selectLanguage('Detect Language', 'icons/ai-stars.svg')">
+            <img src="icons/ai-stars.svg" class="flag stars" />
+            <div class="langchoice-text">Detect Language</div>
+          </li>
+          <div class="section-title">
+            <p>Recently Used</p>
+            <button class="clear-btn" onclick="clearRecent()">Clear</button>
+          </div>
+
+          <!-- Language Options -->
+
+          <li
+            onclick="selectLanguage('Parisian French','https://flagsapi.com/FR/flat/64.png')"
+          >
+            <img src="https://flagsapi.com/FR/flat/64.png" class="flag" />
+            <div class="langchoice-text">
+              Parisian French
+              <small>Paris, France</small>
+            </div>
+          </li>
+
+          <li
+            onclick="selectLanguage('Herzegovinian Štokavian', 'https://flagsapi.com/HR/flat/64.png')"
+          >
+            <img src="https://flagsapi.com/HR/flat/64.png" class="flag" />
+            <div class="langchoice-text">
+              Herzegovinian Štokavian
+              <small>Medjugorje, Croatia</small>
+            </div>
+          </li>
+
+          <li
+            onclick="selectLanguage('Moroccan Arabic', 'https://flagsapi.com/MA/flat/64.png')"
+          >
+            <img src="https://flagsapi.com/MA/flat/64.png" class="flag" />
+            <div class="langchoice-text">Moroccan Arabic</div>
+          </li>
+
+          <div class="section-title">
+            <p>My Languages</p>
+          </div>
+          <li
+            onclick="selectLanguage('English', 'https://flagsapi.com/GB/flat/64.png')"
+          >
+            <img src="https://flagsapi.com/GB/flat/64.png" class="flag" />
+            <div class="langchoice-text">
+              English
+              <small>England</small>
+            </div>
+          </li>
+        </div>
+      </div>
 
       <!-- Input Text Section -->
 
+      <!-- Input1 -->
       <div class="input-container input1">
         <span class="language-label">English</span>
-        <input
-          type="text"
+        <div
           class="text-input"
           id="text-input1"
-          placeholder="Enter text to translate.."
-        />
+          contenteditable="true"
+          onfocus="clearPlaceholder(this)"
+          data-placeholder="Enter text to translate.."
+        ></div>
+
         <img
           src="icons/microphone.svg"
           alt="Microphone"
           class="icon microphone"
+          id="recordButton"
+          onclick="toggleRecording()"
         />
       </div>
+
+      <!-- Translate Button -->
 
       <div class="translate-section">
         <div class="charges icon">60</div>
@@ -71,14 +152,32 @@
         <button class="translate-button">TRANSLATE</button>
       </div>
 
+      <!-- Input2 -->
+
       <div class="input-container input2">
         <span class="language-label">Parisian French</span>
-        <input
-          type="text"
+        <div
           class="text-input"
           id="text-input2"
-          placeholder="Saisissez le texte à traduire.."
+          contenteditable="true"
+          onfocus="clearPlaceholder(this)"
+          data-placeholder="Saisissez le texte à traduire.."
+        ></div>
+        <img
+          src="icons/microphone.svg"
+          alt="Microphone"
+          class="icon microphone"
+          id="recordButton"
+          onclick="toggleRecording()"
         />
+        <audio id="audioPlayer"></audio>
+        <div>
+          <button
+            type="button"
+            id="playButton"
+            onclick="document.getElementById('audioPlayer').play()"
+          ></button>
+        </div>
       </div>
     </div>
   </body>
