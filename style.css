@@ -427,7 +427,7 @@ small {
     transition: 0.5s;
     padding-top: 60px;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
     gap: 8px;
   }
 
