@@ -1,6 +1,6 @@
 // Variables
 
-// const key = process.env.API_KEY;
+const key = process.env.API_KEY;
 
 // Reused Functions
 

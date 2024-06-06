@@ -1,2 +1,3 @@
 .github
 api-key.txt
+.github/workflows/ci.yml
