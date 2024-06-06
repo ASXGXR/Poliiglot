@@ -299,7 +299,7 @@ async function translateText() {
     var translation_t = translation.split("[")[0].split("(")[0].trim();
 
     // Display the translation in the second input box
-    textInput2.innerHTML = translation;
+    textInput2.innerHTML = translation_t;
 
     // Call the function to adjust font size
     adjustFontSizeOfInputs();
