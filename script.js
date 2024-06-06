@@ -1,6 +1,6 @@
 // Variables
 
-const key = process.env.API_KEY;
+// const key = process.env.API_KEY;
 
 // Reused Functions
 
@@ -236,10 +236,11 @@ async function translateText() {
 
     // ChatGPT Request (Translation)
     const botMessage = await chatgptRequest("gpt-4", prompt);
+    console.log(botMessage);
     var translation = botMessage.split("Translation:")[1].trim();
+    console.log(translation);
 
-    var translation_t = translation.split("[")[0].trim();
-    console.log(translation_t);
+    var translation_t = translation.split("[")[0];
 
     // Display the translation in the second input box
     textInput2.innerHTML = translation;
@@ -252,7 +253,7 @@ async function translateText() {
       "Failed to connect. Please check your settings and try again.";
   }
 
-  addTTS(translation);
+  addTTS(translation_t);
 }
 
 function adjustFontSizeOfInputs() {
