@@ -427,7 +427,7 @@ small {
     transition: 0.5s;
     padding-top: 60px;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     gap: 8px;
   }
 
@@ -453,6 +453,7 @@ small {
   .nav-item img[src*="french-flag.png"] {
     padding: 0;
     margin: 0;
+    margin-top: 3.2vw;
   }
 
   .nav-item img[src*="translator.svg"] {
