@@ -346,10 +346,10 @@ let stream;
 async function startRecording() {
   try {
     stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-    mediaRecorder = new MediaRecorder(stream, { mimeType: "audio/webm" });
+    mediaRecorder = new MediaRecorder(stream);
     mediaRecorder.start();
     isRecording = true;
-    document.getElementById("recordButton").src = "icons/stop.svg"; // Update to your stop icon path
+    document.getElementById("recordButton").src = "icons/stop.svg";
 
     mediaRecorder.addEventListener("dataavailable", (event) => {
       audioChunks.push(event.data);
@@ -385,8 +385,6 @@ async function startRecording() {
         const result = await response.json();
         console.log("Transcription result:", result);
         document.getElementById("text-input1").innerText = result.text;
-
-        translateText();
       } catch (error) {
         console.error("Error during the fetch operation:", error);
       } finally {
