@@ -1,6 +1,6 @@
 // Variables
 
-const key = process.env.API_KEY;
+// const key = process.env.API_KEY;
 
 // Reused Functions
 
@@ -25,7 +25,7 @@ async function getPrompt(promptNumber) {
   }
 }
 
-async function chatgptRequest(model, prompt) {
+async function chatgptRequest(model, prompt, key) {
   console.log(prompt);
   const requestBody = JSON.stringify({
     model: model,
@@ -51,6 +51,61 @@ async function chatgptRequest(model, prompt) {
   console.log("Response:", botMessage); // Log the full API response
   return botMessage;
 }
+
+// Checking if API key is correct
+
+const intervalId = setInterval(function () {
+  const apiKey = document.getElementById("apiKeyInput").value;
+  if (apiKey) {
+    chatgptRequest("gpt-3.5-turbo", "say 1", apiKey).then((response) => {
+      if (response) {
+        document.getElementById("apiKeyInput").style.display = "none";
+        // Store the API key in localStorage or a variable for later use
+        localStorage.setItem("key", apiKey);
+        clearInterval(intervalId);
+      }
+    });
+  }
+}, 2000); // every 2 seconds
+
+// Loading Languages
+
+function createLanguageItem(language, flagUrl, location) {
+  const li = document.createElement("li");
+  li.onclick = () => selectLanguage(language, flagUrl);
+
+  const img = document.createElement("img");
+  img.src = flagUrl;
+  img.classList.add("flag");
+
+  const div = document.createElement("div");
+  div.classList.add("langchoice-text");
+  div.innerHTML = `${language}${location ? `<small>${location}</small>` : ""}`;
+
+  li.appendChild(img);
+  li.appendChild(div);
+
+  return li;
+}
+
+async function loadLanguages() {
+  try {
+    const response = await fetch("recent-langs.txt");
+    const text = await response.text();
+    const lines = text.trim().split("\n");
+
+    const languageList = document.getElementById("language-list");
+    lines.forEach((line) => {
+      const [language, flagUrl, location] = line.split("|");
+      const langItem = createLanguageItem(language, flagUrl, location);
+      languageList.appendChild(langItem);
+    });
+  } catch (error) {
+    console.error("Error loading languages:", error);
+  }
+}
+
+document.addEventListener("DOMContentLoaded", loadLanguages);
 
 // Input Boxes Click Radius
 
@@ -82,6 +137,7 @@ inputElements.forEach(function (inputElement) {
 });
 
 // Placeholder Text
+
 function clearPlaceholder(element) {
   if (element.textContent.trim() === element.getAttribute("data-placeholder")) {
     element.textContent = "";

@@ -1,3 +1,3 @@
-Parisian French, FR
-Herzegovinian Štokavian, HR
-Moroccan Arabic, MA
+Parisian French|https://flagsapi.com/FR/flat/64.png|Paris, France
+Herzegovinian Štokavian|https://flagsapi.com/HR/flat/64.png|Medjugorje, Croatia
+Moroccan Arabic|https://flagsapi.com/MA/flat/64.png|

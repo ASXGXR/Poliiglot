@@ -22,6 +22,8 @@
 
     <!-- Main Section -->
 
+    <input type="text" id="apiKeyInput" placeholder="Enter your API key" />
+
     <div class="wrapper">
       <!-- Language Section -->
 
@@ -80,32 +82,7 @@
 
           <!-- Language Options -->
 
-          <li
-            onclick="selectLanguage('Parisian French','https://flagsapi.com/FR/flat/64.png')"
-          >
-            <img src="https://flagsapi.com/FR/flat/64.png" class="flag" />
-            <div class="langchoice-text">
-              Parisian French
-              <small>Paris, France</small>
-            </div>
-          </li>
-
-          <li
-            onclick="selectLanguage('Herzegovinian Štokavian', 'https://flagsapi.com/HR/flat/64.png')"
-          >
-            <img src="https://flagsapi.com/HR/flat/64.png" class="flag" />
-            <div class="langchoice-text">
-              Herzegovinian Štokavian
-              <small>Medjugorje, Croatia</small>
-            </div>
-          </li>
-
-          <li
-            onclick="selectLanguage('Moroccan Arabic', 'https://flagsapi.com/MA/flat/64.png')"
-          >
-            <img src="https://flagsapi.com/MA/flat/64.png" class="flag" />
-            <div class="langchoice-text">Moroccan Arabic</div>
-          </li>
+          <div id="language-list"></div>
 
           <div class="section-title">
             <p>My Languages</p>
