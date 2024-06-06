@@ -296,7 +296,7 @@ async function translateText() {
     var translation = botMessage.split("Translation:")[1].trim();
     console.log(translation);
 
-    var translation_t = translation.split("[")[0];
+    var translation_t = translation.split("[")[0].split("(")[0].trim();
 
     // Display the translation in the second input box
     textInput2.innerHTML = translation;
@@ -309,7 +309,7 @@ async function translateText() {
       "Failed to connect. Please check your settings and try again.";
   }
 
-  addTTS(translation);
+  addTTS(translation_t);
 }
 
 function adjustFontSizeOfInputs() {
