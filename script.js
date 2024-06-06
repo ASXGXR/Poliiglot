@@ -386,6 +386,7 @@ async function startRecording() {
         console.log("Transcription result:", result);
         document.getElementById("text-input1").innerText = result.text;
 
+        await new Promise((resolve) => setTimeout(resolve, 500)); // Wait 0.5 seconds before translating
         translateText();
       } catch (error) {
         console.error("Error during the fetch operation:", error);
