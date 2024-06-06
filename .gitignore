@@ -1,2 +1,2 @@
-echo ".github" >> .gitignore
-echo "api-key.txt" >> .gitignore
+.github
+api-key.txt
