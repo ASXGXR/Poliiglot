@@ -52,7 +52,7 @@ async function chatgptRequest(model, prompt, key) {
   return botMessage;
 }
 
-// Checking if API key is correct
+// Checking if API key is correct every 2 seconds
 
 const intervalId = setInterval(function () {
   const apiKey = document.getElementById("apiKeyInput").value;
@@ -66,7 +66,7 @@ const intervalId = setInterval(function () {
       }
     });
   }
-}, 2000); // every 2 seconds
+}, 2000);
 
 // Loading Languages
 
@@ -109,11 +109,26 @@ document.addEventListener("DOMContentLoaded", loadLanguages);
 
 // Input Boxes Click Radius
 
-document.querySelector(".input1").addEventListener("click", function () {
-  document.querySelector("#text-input1").focus();
+document.querySelector(".input1").addEventListener("click", function (event) {
+  if (
+    event.target.classList.contains("microphone") ||
+    event.target.id === "playButton"
+  ) {
+    event.stopPropagation();
+  } else {
+    document.querySelector("#text-input1").focus();
+  }
 });
-document.querySelector(".input2").addEventListener("click", function () {
-  document.querySelector("#text-input2").focus();
+
+document.querySelector(".input2").addEventListener("click", function (event) {
+  if (
+    event.target.classList.contains("microphone") ||
+    event.target.id === "playButton"
+  ) {
+    event.stopPropagation();
+  } else {
+    document.querySelector("#text-input2").focus();
+  }
 });
 
 // Font Size Based on Length
@@ -299,7 +314,7 @@ async function translateText() {
     var translation_t = translation.split("[")[0].split("(")[0].trim();
 
     // Display the translation in the second input box
-    textInput2.innerHTML = translation_t;
+    textInput2.innerHTML = translation;
 
     // Call the function to adjust font size
     adjustFontSizeOfInputs();
