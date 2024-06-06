@@ -309,7 +309,7 @@ async function translateText() {
       "Failed to connect. Please check your settings and try again.";
   }
 
-  addTTS(translation_t);
+  addTTS(translation);
 }
 
 function adjustFontSizeOfInputs() {
