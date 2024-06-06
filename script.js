@@ -386,7 +386,7 @@ async function startRecording() {
         console.log("Transcription result:", result);
         document.getElementById("text-input1").innerText = result.text;
 
-        await translateText();
+        translateText();
       } catch (error) {
         console.error("Error during the fetch operation:", error);
       } finally {
