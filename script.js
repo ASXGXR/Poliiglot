@@ -61,7 +61,7 @@ const intervalId = setInterval(function () {
       if (response) {
         document.getElementById("apiKeyInput").style.display = "none";
         // Store the API key in localStorage or a variable for later use
-        localStorage.setItem("key", apiKey);
+        key = apiKey;
         clearInterval(intervalId);
       }
     });
@@ -190,7 +190,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Getting Language
     let prompt = await getPrompt(2);
     prompt = prompt.replace("${text}", inputField.value);
-    const botMessage = await chatgptRequest("gpt-3.5-turbo", prompt);
+    const botMessage = await chatgptRequest("gpt-3.5-turbo", prompt, key);
 
     // Extracting Language + Country Code
     const parts = botMessage.split(/,/);
@@ -291,7 +291,7 @@ async function translateText() {
     prompt = prompt.replace("${language}", language).replace("${text}", text);
 
     // ChatGPT Request (Translation)
-    const botMessage = await chatgptRequest("gpt-4", prompt);
+    const botMessage = await chatgptRequest("gpt-4", prompt, key);
     console.log(botMessage);
     var translation = botMessage.split("Translation:")[1].trim();
     console.log(translation);
