@@ -1,7 +1,3 @@
-// Variables
-
-// const key = process.env.API_KEY;
-
 // Reused Functions
 
 async function getPrompt(promptNumber) {
@@ -11,30 +7,38 @@ async function getPrompt(promptNumber) {
       throw new Error(`Failed to fetch file: ${response.statusText}`);
     }
     const data = await response.text();
-    const prompts = data.split("\n\n");
 
-    if (promptNumber < 1 || promptNumber > prompts.length) {
-      throw new Error(`Invalid prompt number: ${promptNumber}`);
+    let sysprompt = data.split("\n\n")[promptNumber - 1];
+    const firstDotIndex = sysprompt.indexOf(".");
+    if (firstDotIndex !== -1) {
+      sysprompt = sysprompt.substring(firstDotIndex + 1).trim();
     }
 
-    const parts = prompts[promptNumber - 1].split(".");
-    const prompt = parts.length > 1 ? parts.slice(1).join(".").trim() : "";
-    return prompt;
+    const [system, prompt] = sysprompt.split("*/*");
+    return { system, prompt };
   } catch (error) {
     throw new Error(`Error reading file: ${error.message}`);
   }
 }
 
-async function chatgptRequest(model, prompt, key) {
-  console.log(prompt);
+async function chatgptRequest(model, system, prompt, key) {
+  const messages = [];
+
+  if (system) {
+    messages.push({
+      role: "system",
+      content: system,
+    });
+  }
+
+  messages.push({
+    role: "user",
+    content: prompt,
+  });
+
   const requestBody = JSON.stringify({
     model: model,
-    messages: [
-      {
-        role: "user",
-        content: prompt,
-      },
-    ],
+    messages: messages,
   });
 
   const response = await fetch("https://api.openai.com/v1/chat/completions", {
@@ -48,16 +52,16 @@ async function chatgptRequest(model, prompt, key) {
 
   const data = await response.json();
   const botMessage = data.choices[0].message.content; // Return the message content
-  console.log("Response:", botMessage); // Log the full API response
+  // console.log("Response:", botMessage); // Log the full API response
   return botMessage;
 }
 
-// Checking if API key is correct every 2 seconds
+// Checking if API key is valid every 2 seconds
 
 const intervalId = setInterval(function () {
   const apiKey = document.getElementById("apiKeyInput").value;
   if (apiKey) {
-    chatgptRequest("gpt-3.5-turbo", "say 1", apiKey).then((response) => {
+    chatgptRequest("gpt-3.5-turbo", "", "say 1", apiKey).then((response) => {
       if (response) {
         document.getElementById("apiKeyInput").style.display = "none";
         // Store the API key in localStorage or a variable for later use
@@ -182,10 +186,43 @@ function closeOverlay() {
   document.getElementById("langchoice-overlay").style.display = "none";
 }
 
+async function selectLanguage(language, flagSrc) {
+  const box = document.getElementById(currentBox);
+  box.querySelector(".box-text").innerText = language;
+  box.querySelector("img.flag").src = flagSrc;
+
+  const currentBoxId = currentBox.replace("box", "");
+  closeOverlay();
+
+  // Adjusting language label
+  const languageLabel = document.querySelector(
+    `.input-container.input${currentBoxId} .language-label`,
+  );
+  languageLabel.innerText = language;
+
+  // Adjusting placeholder text
+  const botMessage = await chatgptRequest(
+    "gpt-3.5-turbo",
+    "Strictly follow the format: Translation: {translation}",
+    `Translate 'Enter text to translate..' into ${language}`,
+    key,
+  );
+
+  const translationMatch = botMessage.match(/Translation:\s*(.*)/);
+  if (translationMatch) {
+    const translation = translationMatch[1];
+    document
+      .querySelector(`.input-container.input${currentBoxId} .text-input`)
+      .setAttribute("data-placeholder", translation);
+  } else {
+    console.error("Translation format not found in the response.");
+  }
+}
+
 // Input Language Code
 
 document.addEventListener("DOMContentLoaded", async () => {
-  // Button Opacity
+  // Button Opacity (CONFIRM)
   const inputField = document.querySelector(
     '.langchoice-input input[type="text"]',
   );
@@ -202,55 +239,53 @@ document.addEventListener("DOMContentLoaded", async () => {
   // If Button Clicked
   const confirmArrow = document.querySelector(".confirm-arrow");
   confirmArrow.addEventListener("click", async () => {
-    // Getting Language
-    let prompt = await getPrompt(2);
-    prompt = prompt.replace("${text}", inputField.value);
-    const botMessage = await chatgptRequest("gpt-3.5-turbo", prompt, key);
+    // Getting User Input
+    const userInput = inputField.value;
+
+    // Dialect or Place?
+    var botMessage = await chatgptRequest(
+      "gpt-3.5-turbo",
+      "Give a 1 word response, dialect or place",
+      `Is ${userInput} a dialect/language or a place?`,
+      key,
+    );
+    botMessage = botMessage.toLowerCase();
+
+    // Dialect
+    if (botMessage.includes("dialect")) {
+      botMessage = await chatgptRequest(
+        "gpt-3.5-turbo",
+        "Strictly follow the format: Language: {language}, Country: {country_code}",
+        `Correct any spelling errors in ${userInput} and identify the country most associated with this language, giving its country code in ISO 3166 Format.`,
+        key,
+      );
+    }
+
+    // Place
+    if (botMessage.includes("place")) {
+      botMessage = await chatgptRequest(
+        "gpt-3.5-turbo",
+        "Strictly follow the format: Language: {language}, Country: {country_code}",
+        `Identify the single most common dialect spoken in ${userInput}, then give its country code in ISO 3166 Format.`,
+        key,
+      );
+    }
 
     // Extracting Language + Country Code
-    const parts = botMessage.split(/,/);
-    let language, country_code;
-
-    for (const part of parts) {
-      if (part.includes("Language:")) {
-        language = part.split("Language:")[1].trim();
-      } else if (part.includes("Country:")) {
-        country_code = part.split("Country:")[1].trim();
-      }
-    }
+    const language = botMessage.match(/Language:\s*([^,]*)/)[1];
+    const country_code = botMessage.match(/Country:\s*([^,]*)/)[1];
 
     // Getting Flag
     const flagSrc = country_code
       ? `https://flagsapi.com/${country_code}/flat/64.png`
       : "";
-    console.log(flagSrc);
+    // console.log(flagSrc);
 
     if (inputField.value.trim() !== "") {
       selectLanguage(language, flagSrc);
     }
   });
 });
-
-function selectLanguage(language, flagSrc) {
-  if (currentBox) {
-    const box = document.getElementById(currentBox);
-    let currentBoxId = currentBox.replace("box", "");
-
-    console.log(currentBoxId);
-
-    box.querySelector(".box-text").innerText = language;
-    box.querySelector("img.flag").src = flagSrc;
-    closeOverlay();
-  }
-
-  const languageLabel = document.querySelector(
-    `.input-container.input${currentBox.replace("box", "")} .language-label`,
-  );
-
-  if (languageLabel) {
-    languageLabel.innerText = language;
-  }
-}
 
 // Input Switching Logic
 
@@ -301,12 +336,13 @@ async function translateText() {
   }
 
   try {
-    let prompt = await getPrompt(1);
-    // Update the prompt to match user input
-    prompt = prompt.replace("${language}", language).replace("${text}", text);
+    let { system, prompt } = await getPrompt(1);
+    prompt = prompt
+      .replace(/\${language}/g, language)
+      .replace(/\${text}/g, text);
 
     // ChatGPT Request (Translation)
-    const botMessage = await chatgptRequest("gpt-4", prompt, key);
+    const botMessage = await chatgptRequest("gpt-4", system, prompt, key);
     console.log(botMessage);
     var translation = botMessage.split("Translation:")[1].trim();
     console.log(translation);
@@ -397,12 +433,12 @@ async function startRecording() {
       }
     });
 
-    // Optional: Automatically stop recording after 5 seconds
+    // Optional: Automatically stop recording after 6 seconds
     setTimeout(() => {
       if (isRecording) {
         stopRecording();
       }
-    }, 5000);
+    }, 6000);
   } catch (error) {
     console.error("Error accessing media devices:", error);
   }
