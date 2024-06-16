@@ -78,15 +78,18 @@ function createLanguageItem(language, flagUrl, location) {
   const li = document.createElement("li");
   li.onclick = () => selectLanguage(language, flagUrl);
 
+  const flagDiv = document.createElement("div");
+  flagDiv.classList.add("flag");
+
   const img = document.createElement("img");
   img.src = flagUrl;
-  img.classList.add("flag");
+  flagDiv.appendChild(img);
 
   const div = document.createElement("div");
   div.classList.add("langchoice-text");
   div.innerHTML = `${language}${location ? `<small>${location}</small>` : ""}`;
 
-  li.appendChild(img);
+  li.appendChild(flagDiv);
   li.appendChild(div);
 
   return li;
@@ -245,8 +248,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Dialect or Place?
     var botMessage = await chatgptRequest(
       "gpt-3.5-turbo",
-      "Give a 1 word response, dialect or place",
-      `Is ${userInput} a dialect/language or a place?`,
+      "Give 1 word response, dialect or place",
+      `${userInput}: dialect/language or place?`,
       key,
     );
     botMessage = botMessage.toLowerCase();
