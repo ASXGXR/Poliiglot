@@ -52,7 +52,6 @@ async function chatgptRequest(model, system, prompt, key) {
 
   const data = await response.json();
   const botMessage = data.choices[0].message.content; // Return the message content
-  // console.log(botMessage); // Log the full API response
   return botMessage;
 }
 
