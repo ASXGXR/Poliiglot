@@ -53,6 +53,7 @@ async function chatgptRequest(model, system, prompt, key) {
   const data = await response.json();
   const botMessage = data.choices[0].message.content; // Return the message content
   // console.log("Response:", botMessage); // Log the full API response
+  console.log(botMessage);
   return botMessage;
 }
 
@@ -192,7 +193,9 @@ function closeOverlay() {
 async function selectLanguage(language, flagSrc) {
   const box = document.getElementById(currentBox);
   box.querySelector(".box-text").innerText = language;
-  box.querySelector("img.flag").src = flagSrc;
+
+  const flagImg = box.querySelector(".flag img");
+  flagImg.src = flagSrc;
 
   const currentBoxId = currentBox.replace("box", "");
   closeOverlay();
@@ -207,13 +210,13 @@ async function selectLanguage(language, flagSrc) {
   const botMessage = await chatgptRequest(
     "gpt-3.5-turbo",
     "Strictly follow the format: Translation: {translation}",
-    `Translate 'Enter text to translate..' into ${language}`,
+    `Translate into ${language}: Enter text to translate`,
     key,
   );
 
   const translationMatch = botMessage.match(/Translation:\s*(.*)/);
   if (translationMatch) {
-    const translation = translationMatch[1];
+    const translation = translationMatch[1] + "..";
     document
       .querySelector(`.input-container.input${currentBoxId} .text-input`)
       .setAttribute("data-placeholder", translation);
@@ -249,7 +252,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     var botMessage = await chatgptRequest(
       "gpt-3.5-turbo",
       "Give 1 word response, dialect or place",
-      `${userInput}: dialect/language or place?`,
+      `${userInput}: dialect or place?`,
       key,
     );
     botMessage = botMessage.toLowerCase();
