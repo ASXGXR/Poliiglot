@@ -322,7 +322,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           languageDiv.style.display = "flex";
           languageDiv.style.alignItems = "center";
           languageDiv.style.justifyContent = "center";
-          languageDiv.style.padding = "14px"; // Adjust padding if needed
+          languageDiv.style.padding = "14px 5vw"; // Adjust padding if needed
           languageDiv.style.cursor = "pointer";
 
           // Add onclick event listener

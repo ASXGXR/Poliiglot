@@ -59,56 +59,60 @@
 
       <!-- Overlay -->
 
-      <div class="langchoice-overlay" id="langchoice-overlay">
-        <!-- Input Section -->
-        <div class="langchoice-input">
-          <img
-            src="icons/close.svg"
-            class="close-btn"
-            onclick="closeOverlay()"
-          />
-          <input
-            type="text"
-            id="lang-input"
-            placeholder="Enter Language or Place.."
-          />
-          <img
-            src="icons/confirm.svg"
-            class="confirm-arrow"
-            alt="Confirm Arrow"
-          />
-        </div>
-
-        <!-- Options Section -->
-        <div class="langchoice-options">
-          <li onclick="selectLanguage('Detect Language', 'icons/ai-stars.svg')">
-            <img src="icons/ai-stars.svg" class="flag stars" />
-            <div class="langchoice-text">Detect Language</div>
-          </li>
-          <div class="section-title">
-            <p>Recently Used</p>
-            <button class="clear-btn" onclick="clearRecent()">Clear</button>
+      <div class="overlay" id="langchoice-overlay">
+        <div class="langchoice-content">
+          <!-- Input Section -->
+          <div class="langchoice-input">
+            <img
+              src="icons/close.svg"
+              class="close-btn"
+              onclick="closeOverlay()"
+            />
+            <input
+              type="text"
+              id="lang-input"
+              placeholder="Enter Language or Place.."
+            />
+            <img
+              src="icons/confirm.svg"
+              class="confirm-arrow"
+              alt="Confirm Arrow"
+            />
           </div>
 
-          <!-- Language Options -->
+          <!-- Options Section -->
+          <div class="langchoice-options">
+            <li
+              onclick="selectLanguage('Detect Language', 'icons/ai-stars.svg')"
+            >
+              <img src="icons/ai-stars.svg" class="flag stars" />
+              <div class="langchoice-text">Detect Language</div>
+            </li>
+            <div class="section-title">
+              <p>Recently Used</p>
+              <button class="clear-btn" onclick="clearRecent()">Clear</button>
+            </div>
 
-          <div id="language-list"></div>
+            <!-- Language Options -->
 
-          <div class="section-title">
-            <p>My Languages</p>
+            <div id="language-list"></div>
+
+            <div class="section-title">
+              <p>My Languages</p>
+            </div>
+            <li
+              onclick="selectLanguage('English', 'https://flagsapi.com/GB/flat/64.png')"
+            >
+              <div class="flag">
+                <img src="https://flagsapi.com/GB/flat/64.png" />
+              </div>
+
+              <div class="langchoice-text">
+                English
+                <small>England</small>
+              </div>
+            </li>
           </div>
-          <li
-            onclick="selectLanguage('English', 'https://flagsapi.com/GB/flat/64.png')"
-          >
-            <div class="flag">
-              <img src="https://flagsapi.com/GB/flat/64.png" />
-            </div>
-
-            <div class="langchoice-text">
-              English
-              <small>England</small>
-            </div>
-          </li>
         </div>
       </div>
 
