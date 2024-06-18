@@ -52,8 +52,7 @@ async function chatgptRequest(model, system, prompt, key) {
 
   const data = await response.json();
   const botMessage = data.choices[0].message.content; // Return the message content
-  // console.log("Response:", botMessage); // Log the full API response
-  console.log(botMessage);
+  // console.log(botMessage); // Log the full API response
   return botMessage;
 }
 
@@ -242,53 +241,124 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   });
 
+  // Getting Flag
+  function getFlagUrl(country_code) {
+    return (flagSrc = country_code
+      ? `https://flagsapi.com/${country_code}/flat/64.png`
+      : "");
+  }
+
   // If Button Clicked
   const confirmArrow = document.querySelector(".confirm-arrow");
   confirmArrow.addEventListener("click", async () => {
-    // Getting User Input
     const userInput = inputField.value;
 
     // Dialect or Place?
     var botMessage = await chatgptRequest(
       "gpt-3.5-turbo",
-      "Give 1 word response, dialect or place",
-      `${userInput}: dialect or place?`,
+      "Give 1 word response, language, dialect or place",
+      `${userInput}: language, dialect or place?`,
       key,
     );
     botMessage = botMessage.toLowerCase();
+    let country_code = "";
+    let language = "";
 
     // Dialect
-    if (botMessage.includes("dialect")) {
+    if (botMessage.includes("dialect") || botMessage.includes("language")) {
       botMessage = await chatgptRequest(
         "gpt-3.5-turbo",
-        "Strictly follow the format: Language: {language}, Country: {country_code}",
+        "Strictly follow the format: Language: {language}, Country Code: {country_code}",
         `Correct any spelling errors in ${userInput} and identify the country most associated with this language, giving its country code in ISO 3166 Format.`,
         key,
       );
+      language = botMessage.match(/Language:\s*([^,]*)/)[1].trim();
+      country_code = botMessage.match(/Country Code:\s*([^,]*)/)[1].trim();
+
+      const flagSrc = getFlagUrl(country_code);
+      selectLanguage(language, flagSrc);
     }
 
     // Place
     if (botMessage.includes("place")) {
       botMessage = await chatgptRequest(
         "gpt-3.5-turbo",
-        "Strictly follow the format: Language: {language}, Country: {country_code}",
-        `Identify the single most common dialect spoken in ${userInput}, then give its country code in ISO 3166 Format.`,
+        "Strictly follow the format, and don't give any other information: Dialects: language1 (%),language2 (%),etc..",
+        `Provide the top dialects spoken in ${userInput}, giving a maximum of 6, with a percentage estimate for how useful it would be to know this language when visiting`,
         key,
       );
-    }
 
-    // Extracting Language + Country Code
-    const language = botMessage.match(/Language:\s*([^,]*)/)[1];
-    const country_code = botMessage.match(/Country:\s*([^,]*)/)[1];
+      // Extracting Languages
+      let languagesMatch = botMessage.match(/Dialects:\s*([^]+?)(?:\n\n|$)/);
 
-    // Getting Flag
-    const flagSrc = country_code
-      ? `https://flagsapi.com/${country_code}/flat/64.png`
-      : "";
-    // console.log(flagSrc);
+      let languagesString = languagesMatch[1].trim();
+      const language_list = languagesString
+        .split(",")
+        .map((lang) => lang.trim());
+      console.log(language_list);
 
-    if (inputField.value.trim() !== "") {
-      selectLanguage(language, flagSrc);
+      if (language_list.length > 1) {
+        let langChoiceInput = document.querySelector(".langchoice-input");
+
+        // Remove existing grid if present
+        let existingGrid = document.querySelector(".language-grid");
+        if (existingGrid) {
+          existingGrid.remove();
+        }
+
+        // Create a new div for the grid
+        let gridDiv = document.createElement("div");
+        gridDiv.classList.add("language-grid");
+        gridDiv.style.display = "grid";
+        gridDiv.style.gridTemplateColumns = "repeat(3, 1fr)";
+        gridDiv.style.gap = "8px"; // Adjust gap between grid items if needed
+
+        // Add each language to the grid in its own div
+        language_list.forEach((language) => {
+          let languageDiv = document.createElement("div");
+          languageDiv.textContent = language;
+          languageDiv.style.backgroundColor = "white";
+          languageDiv.style.fontSize = "13px";
+          languageDiv.style.borderRadius = "var(--radius)";
+          languageDiv.style.display = "flex";
+          languageDiv.style.alignItems = "center";
+          languageDiv.style.justifyContent = "center";
+          languageDiv.style.padding = "14px"; // Adjust padding if needed
+          languageDiv.style.cursor = "pointer";
+
+          // Add onclick event listener
+          languageDiv.onclick = () => {
+            const flagSrc = getFlagUrl(country_code);
+            selectLanguage(language.split("(")[0].trim(), flagSrc);
+          };
+
+          gridDiv.appendChild(languageDiv);
+        });
+
+        // Insert the grid div after the langchoice-input div
+        langChoiceInput.insertAdjacentElement("afterend", gridDiv);
+
+        // Extracting Country Code
+        botMessage = await chatgptRequest(
+          "gpt-3.5-turbo",
+          "Strictly follow the format: Country Code: {country_code}",
+          `Give ${userInput}'s country code in ISO 3166 format`,
+          key,
+        );
+        country_code = botMessage.match(/Country Code:\s*([^,]*)/)[1].trim();
+      } else {
+        language = language_list[0];
+        // Extracting Country Code
+        botMessage = await chatgptRequest(
+          "gpt-3.5-turbo",
+          "Strictly follow the format: Country Code: {country_code}",
+          `Give ${userInput}'s country code in ISO 3166 format`,
+          key,
+        );
+        country_code = botMessage.match(/Country Code:\s*([^,]*)/)[1].trim();
+        const flagSrc = getFlagUrl(country_code);
+        selectLanguage(language.split("(")[0].trim(), flagSrc);
+      }
     }
   });
 });
