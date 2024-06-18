@@ -202,6 +202,7 @@ async function selectLanguage(language, flagSrc) {
   const languageLabel = document.querySelector(
     `.input-container.input${currentBoxId} .language-label`,
   );
+  language = language.replace(/standard/gi, "").trim(); // Removes "standard"
   languageLabel.innerText = language;
 
   // Adjusting placeholder text
@@ -291,11 +292,21 @@ document.addEventListener("DOMContentLoaded", async () => {
       let languagesMatch = botMessage.match(/Dialects:\s*([^]+?)(?:\n\n|$)/);
 
       let languagesString = languagesMatch[1].trim();
-      const language_list = languagesString
-        .split(",")
-        .map((lang) => lang.trim());
+      var language_list = languagesString.split(",").map((lang) => lang.trim());
       console.log(language_list);
 
+      // Filtering Out Languages
+      var language_list = language_list.filter(
+        (item) => !item.toLowerCase().includes("language"),
+      );
+      const itemWith100Percent = language_list.find((item) =>
+        item.includes("100%"),
+      );
+      if (itemWith100Percent) {
+        language_list = [itemWith100Percent];
+      }
+
+      // More Than 1 Found
       if (language_list.length > 1) {
         let langChoiceInput = document.querySelector(".langchoice-input");
 
@@ -347,8 +358,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         );
         country_code = botMessage.match(/Country Code:\s*([^,]*)/)[1].trim();
       } else {
+        // 1 Language Found
         language = language_list[0];
-        // Extracting Country Code
         botMessage = await chatgptRequest(
           "gpt-3.5-turbo",
           "Strictly follow the format: Country Code: {country_code}",
