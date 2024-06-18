@@ -390,6 +390,13 @@ small {
 .charges {
   color: var(--primary-color700);
   font-size: 17.6px;
+  display: flex;
+  align-items: center;
+}
+
+.infinity {
+  width: 22px;
+  height: 22px;
 }
 
 .charges::after {
