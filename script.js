@@ -189,6 +189,8 @@ function closeOverlay() {
 }
 
 async function selectLanguage(language, flagSrc) {
+  language = language.replace(/standard/gi, "").trim();
+
   const box = document.getElementById(currentBox);
   box.querySelector(".box-text").innerText = language;
 
@@ -202,7 +204,6 @@ async function selectLanguage(language, flagSrc) {
   const languageLabel = document.querySelector(
     `.input-container.input${currentBoxId} .language-label`,
   );
-  language = language.replace(/standard/gi, "").trim(); // Removes "standard"
   languageLabel.innerText = language;
 
   // Adjusting placeholder text
