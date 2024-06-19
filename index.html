@@ -16,10 +16,24 @@
         .then((response) => response.text())
         .then((data) => {
           document.getElementById("nav-placeholder").innerHTML = data;
-          const libraryNavItem = document.getElementById("library-nav-item");
-          libraryNavItem.addEventListener("click", function () {
-            document.getElementById("library-page").style.display = "flex";
-          });
+
+          // Debugging: Check the content of `data`
+          console.log(data);
+
+          // Wait for the DOM to update
+          setTimeout(() => {
+            const libraryNavItem = document.getElementById("library-nav-item");
+            if (libraryNavItem) {
+              libraryNavItem.addEventListener("click", function () {
+                document.getElementById("library-page").style.display = "flex";
+              });
+            } else {
+              console.error("library-nav-item not found");
+            }
+          }, 0); // Set a small timeout to ensure the DOM is updated
+        })
+        .catch((error) => {
+          console.error("Error loading nav.html:", error);
         });
     </script>
     <div class="nav-spacer"></div>
