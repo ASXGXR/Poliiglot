@@ -430,6 +430,8 @@ async function translateText() {
       .replace(/\${text}/g, text);
 
     // ChatGPT Request (Translation)
+    console.log(system);
+    console.log(prompt);
     const botMessage = await chatgptRequest("gpt-4", system, prompt, key);
     console.log(botMessage);
     var translation = botMessage.split("Translation:")[1].trim();
@@ -580,3 +582,24 @@ async function addTTS(inputText) {
   const audioPlayer = document.getElementById("audioPlayer");
   audioPlayer.src = audioUrl;
 }
+
+// PNG to SVG (Library Flag)
+
+window.onload = function () {
+  const img = new Image();
+  img.crossOrigin = "Anonymous";
+  img.src =
+    "https://cors-anywhere.herokuapp.com/https://flagsapi.com/FR/flat/64.png";
+  img.onload = function () {
+    const canvas = document.createElement("canvas");
+    canvas.width = img.width;
+    canvas.height = img.height;
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0);
+    const imgData = canvas.toDataURL("image/png");
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${img.width}" height="${img.height}">
+                        <image href="${imgData}" width="${img.width}" height="${img.height}"/>
+                    </svg>`;
+    document.getElementById("flagImage").innerHTML = svg;
+  };
+};

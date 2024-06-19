@@ -16,22 +16,32 @@
         .then((response) => response.text())
         .then((data) => {
           document.getElementById("nav-placeholder").innerHTML = data;
+          const libraryNavItem = document.getElementById("library-nav-item");
+          libraryNavItem.addEventListener("click", function () {
+            document.getElementById("library-page").style.display = "flex";
+          });
         });
     </script>
     <div class="nav-spacer"></div>
 
     <!-- LIBRARY PAGE -->
-    <div class="library-page">
-      <div class="library-sections">
-        <div class="library-section lang-pictures">
-          <img src="images/franceotp.png" class="building-image" />
-          <div class="flag library-flag">
-            <img src="https://flagsapi.com/FR/flat/64.png" />
-          </div>
+    <div class="library-page" id="library-page">
+      <!-- Pictures -->
+      <div class="lang-pictures">
+        <img src="images/franceotp.png" class="building-image" />
+        <div class="flag library-flag">
+          <div id="flagImage"></div>
         </div>
-        <div class="lang-title"></div>
+      </div>
+      <!-- Lang Header -->
+      <div class="lang-header">
+        <div class="lang-subtitle">français parisien</div>
+        <div class="lang-title">PARISIAN FRENCH</div>
+        <div class="line"></div>
         <div class="words-section"></div>
       </div>
+      <!-- Word Library -->
+      <div class="outline"></div>
     </div>
 
     <!-- Main Section -->
