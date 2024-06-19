@@ -531,7 +531,7 @@ input:-webkit-autofill {
 /* LIBRARY PAGE */
 
 .library-page {
-  display: none;
+  display: flex;
   position: fixed;
   gap: 32px;
   top: 0;
