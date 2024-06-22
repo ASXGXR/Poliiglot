@@ -4,201 +4,22 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Poliiglot</title>
-    <link rel="stylesheet" href="style.css" />
-    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="index-style.css" />
   </head>
 
   <body>
-    <!-- Nav Bar -->
-    <div id="nav-placeholder"></div>
-    <script>
-      fetch("nav.html")
-        .then((response) => response.text())
-        .then((data) => {
-          document.getElementById("nav-placeholder").innerHTML = data;
-        });
-    </script>
-    <div class="nav-spacer"></div>
-
-    <!-- LIBRARY PAGE -->
-    <div class="library-page">
-      <!-- Pictures -->
-      <div class="lang-pictures">
-        <img src="images/moroccootp.png" class="building-image" />
-        <div class="flag library-flag">
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/2/2c/Flag_of_Morocco.svg"
-          />
+    <img src="icons/slanted-globe.svg" class="globe" />
+    <img src="images/poliiglot-logo.svg" />
+    <div class="hero-section">
+      <div class="text-section">
+        <div class="header">Join <span class="span1">15,000</span> Users,</div>
+        <div class="header">
+          Learning <span class="span2">7,100</span> Languages.
         </div>
       </div>
-      <!-- <div class="lang-pictures">
-        <img src="images/franceotp.png" class="building-image" />
-        <div class="flag library-flag">
-          <img
-            src="https://upload.wikimedia.org/wikipedia/en/c/c3/Flag_of_France.svg"
-          />
-        </div>
-      </div> -->
-      <!-- Lang Header -->
-      <div class="lang-header">
-        <div class="lang-title-before">MOROCCAN</div>
-        <div class="lang-title">ARABIC</div>
-        <div class="lang-subtitle">darija (دارجة)</div>
-        <div class="line"></div>
-        <div class="words-section"></div>
-      </div>
-      <!-- <div class="lang-header">
-        <div class="lang-title-before">PARISIAN</div>
-        <div class="lang-title">FRENCH</div>
-        <div class="lang-subtitle">français parisien</div>
-        <div class="line"></div>
-        <div class="words-section"></div>
-      </div> -->
-      <!-- Word Library -->
-      <div class="outline"></div>
-    </div>
-
-    <!-- Main Section -->
-
-    <input type="text" id="apiKeyInput" placeholder="Enter your API key" />
-
-    <div class="wrapper">
-      <!-- Language Section -->
-
-      <div class="language-section">
-        <div class="lang-box" id="box1">
-          <div class="flag">
-            <img src="https://flagsapi.com/GB/flat/64.png" alt="English flag" />
-          </div>
-          <div class="box-text" id="box-text-1" lang="en">English</div>
-        </div>
-        <div class="arrow">→</div>
-        <div class="lang-box" id="box2">
-          <div class="flag">
-            <img src="https://flagsapi.com/FR/flat/64.png" alt="French flag" />
-          </div>
-          <div class="box-text" id="box-text-2" lang="en">Parisian French</div>
-        </div>
-      </div>
-
-      <!-- Overlay -->
-
-      <div class="overlay" id="langchoice-overlay">
-        <div class="langchoice-content">
-          <!-- Input Section -->
-          <div class="langchoice-input">
-            <img
-              src="icons/close.svg"
-              class="close-btn"
-              onclick="closeOverlay()"
-            />
-            <input
-              type="text"
-              id="lang-input"
-              placeholder="Enter Language or Place.."
-            />
-            <img
-              src="icons/confirm.svg"
-              class="confirm-arrow"
-              alt="Confirm Arrow"
-            />
-          </div>
-
-          <!-- Options Section -->
-          <div class="langchoice-options">
-            <li
-              onclick="selectLanguage('Detect Language', 'icons/ai-stars.svg')"
-            >
-              <img src="icons/ai-stars.svg" class="flag stars" />
-              <div class="langchoice-text">Detect Language</div>
-            </li>
-            <div class="section-title">
-              <p>Recently Used</p>
-              <button class="clear-btn" onclick="clearRecent()">Clear</button>
-            </div>
-
-            <!-- Language Options -->
-
-            <div id="language-list"></div>
-
-            <div class="section-title">
-              <p>My Languages</p>
-            </div>
-            <li
-              onclick="selectLanguage('English', 'https://flagsapi.com/GB/flat/64.png')"
-            >
-              <div class="flag">
-                <img src="https://flagsapi.com/GB/flat/64.png" />
-              </div>
-
-              <div class="langchoice-text">
-                English
-                <small>England</small>
-              </div>
-            </li>
-          </div>
-        </div>
-      </div>
-
-      <!-- Input Text Section -->
-
-      <!-- Input1 -->
-      <div class="input-container input1">
-        <span class="language-label">English</span>
-        <div
-          class="text-input"
-          id="text-input1"
-          contenteditable="true"
-          onfocus="clearPlaceholder(this)"
-          data-placeholder="Enter text to translate.."
-        ></div>
-
-        <img
-          src="icons/microphone.svg"
-          alt="Microphone"
-          class="icon microphone"
-          id="recordButton"
-          onclick="toggleRecording()"
-        />
-      </div>
-
-      <!-- Translate Button -->
-
-      <div class="translate-section">
-        <div class="charges icon">
-          <!-- <img src="icons/infinity.svg" alt="Infinity Sign" class="infinity" /> -->
-          60
-        </div>
-        <img src="icons/switch-arrow.svg" alt="Switch Arrow" class="icon" />
-        <button class="translate-button">TRANSLATE</button>
-      </div>
-
-      <!-- Input2 -->
-
-      <div class="input-container input2">
-        <span class="language-label">Parisian French</span>
-        <div
-          class="text-input"
-          id="text-input2"
-          contenteditable="true"
-          onfocus="clearPlaceholder(this)"
-          data-placeholder="Saisissez le texte à traduire.."
-        ></div>
-        <img
-          src="icons/microphone.svg"
-          alt="Microphone"
-          class="icon microphone"
-          id="recordButton"
-          onclick="toggleRecording()"
-        />
-        <audio id="audioPlayer"></audio>
-        <div>
-          <button
-            type="button"
-            id="playButton"
-            onclick="document.getElementById('audioPlayer').play()"
-          ></button>
-        </div>
+      <div class="buttons">
+        <button class="button button1">Download App</button>
+        <a href="demo.html" class="button button2">Try Demo</a>
       </div>
     </div>
   </body>
