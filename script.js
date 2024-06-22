@@ -52,6 +52,7 @@ async function chatgptRequest(model, system, prompt, key) {
 
   const data = await response.json();
   const botMessage = data.choices[0].message.content; // Return the message content
+  console.log(botMessage);
   return botMessage;
 }
 
@@ -269,7 +270,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (botMessage.includes("dialect") || botMessage.includes("language")) {
       botMessage = await chatgptRequest(
         "gpt-3.5-turbo",
-        "Strictly follow the format: Language: {language}, Country Code: {country_code}",
+        "Strictly follow the format: Language: {language}, Country Code: {country_code}, don't add anything",
         `Correct any spelling errors in ${userInput} and identify the country most associated with this language, giving its country code in ISO 3166 Format.`,
         key,
       );
@@ -277,6 +278,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       country_code = botMessage.match(/Country Code:\s*([^,]*)/)[1].trim();
 
       const flagSrc = getFlagUrl(country_code);
+      console.log(flagSrc);
       selectLanguage(language, flagSrc);
     }
 
