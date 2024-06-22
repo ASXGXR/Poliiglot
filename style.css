@@ -64,42 +64,33 @@ body {
 
 .nav-item {
   text-align: center;
+  align-items: center;
+  justify-content: center;
   color: white;
   cursor: pointer;
-  padding: 0px 32px;
+  padding: 0px 7.8vmin;
 }
 
 .nav-item img {
   display: block;
-  margin: 0 auto 4px;
-  width: 38px;
-  height: 38px;
-}
-
-.nav-item img[src*="settings.svg"] {
+  margin: 0 auto 8px;
   width: 30px;
   height: 30px;
-  padding: 6px 0px;
 }
 
 .nav-item img[alt="Library"] {
-  width: 26px;
-  height: 26px;
-  padding: 0;
   border: 2px solid white;
   border-radius: 50%;
   object-fit: cover;
-  margin: 0 auto 6px;
-}
-
-.nav-item img[src*="translator.svg"] {
-  padding: 1px;
-  margin: 0 auto 6px;
+  height: 26px;
+  width: 26px;
+  margin-bottom: 7px;
 }
 
 .nav-item p {
   margin: 0;
-  font-size: 10px;
+  font-size: 11px;
+  font-weight: 500;
 }
 
 .library-padding {
