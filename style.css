@@ -74,17 +74,17 @@ body {
 .nav-item img {
   display: block;
   margin: 0 auto 8px;
-  width: 30px;
-  height: 30px;
+  width: 28px;
+  height: 28px;
 }
 
 .nav-item img[alt="Library"] {
-  border: 2px solid white;
+  border: 2.5px solid white;
   border-radius: 50%;
   object-fit: cover;
-  height: 26px;
-  width: 26px;
-  margin-bottom: 7px;
+  height: 24px;
+  width: 24px;
+  margin-bottom: 6px;
 }
 
 .nav-item p {
