@@ -16,9 +16,20 @@
         .then((response) => response.text())
         .then((data) => {
           document.getElementById("nav-placeholder").innerHTML = data;
+          // Add event listeners after the content is loaded
+          document
+            .getElementById("library")
+            .addEventListener("click", function () {
+              document.querySelector(".library-page").style.display = "flex";
+            });
+
+          document
+            .getElementById("translator")
+            .addEventListener("click", function () {
+              document.querySelector(".library-page").style.display = "none";
+            });
         });
     </script>
-    <div class="nav-spacer"></div>
 
     <!-- LIBRARY PAGE -->
     <div class="library-page">

@@ -79,18 +79,19 @@ body {
 }
 
 .nav-item img[alt="Library"] {
-  border: 2.5px solid white;
+  border: 2.2px solid white;
   border-radius: 50%;
   object-fit: cover;
-  height: 24px;
-  width: 24px;
-  margin-bottom: 6px;
+  height: 26px;
+  width: 26px;
+  margin-bottom: 5px;
+  margin-top: -1px;
 }
 
 .nav-item p {
   margin: 0;
   font-size: 11px;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 .library-padding {
