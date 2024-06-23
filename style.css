@@ -200,7 +200,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 16px;
+  gap: 12px;
 }
 
 .langchoice-input input[type="text"] {
@@ -226,7 +226,7 @@ body {
 .langchoice-options {
   border-radius: var(--radius);
   background: var(--box-color);
-  padding: 36px;
+  padding: 32px;
   width: 100%;
   box-sizing: border-box;
   display: flex;
