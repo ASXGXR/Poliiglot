@@ -287,7 +287,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       botMessage = await chatgptRequest(
         "gpt-3.5-turbo",
         "Strictly follow the format, and don't give any other information: Dialects: language1 (%),language2 (%),etc..",
-        `Provide the top dialects spoken in ${userInput}, giving a maximum of 6, with a percentage estimate for how useful it would be to know this language when visiting`,
+        `Provide the top dialects spoken in ${userInput}, giving a maximum of 6, with a percentage estimate for how useful it would be to know this language when visiting. If one main dialect is spoken in this place, just provide that one.`,
         key,
       );
 
