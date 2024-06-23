@@ -283,12 +283,18 @@ document.addEventListener("DOMContentLoaded", async () => {
       selectLanguage(language, flagSrc);
     }
 
+    // Remove existing grid if present
+    let existingGrid = document.querySelector(".language-grid");
+    if (existingGrid) {
+      existingGrid.remove();
+    }
+
     // Place
     if (botMessage.includes("place")) {
       botMessage = await chatgptRequest(
         "gpt-3.5-turbo",
         "Strictly follow the format, and don't give any other information: Dialects: language1 (%),language2 (%),etc..",
-        `Provide the top dialects spoken in ${userInput}, giving a maximum of 6, with a percentage estimate for how useful it would be to know this language when visiting. If one main dialect is spoken in this place, just provide that one.`,
+        `Provide the top dialects spoken in ${userInput}. If one main language is spoken in this place, just provide that one. If multiple dialects spoken, provide a maximum of 6, with a percentage estimate for how useful it would be to know this language when visiting.`,
         key,
       );
 
@@ -315,12 +321,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       // More Than 1 Found
       if (language_list.length > 1) {
         let langChoiceInput = document.querySelector(".langchoice-input");
-
-        // Remove existing grid if present
-        let existingGrid = document.querySelector(".language-grid");
-        if (existingGrid) {
-          existingGrid.remove();
-        }
 
         // Create a new div for the grid
         let gridDiv = document.createElement("div");
