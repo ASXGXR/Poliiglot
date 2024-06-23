@@ -202,6 +202,9 @@ async function selectLanguage(language, flagSrc) {
   const currentBoxId = currentBox.replace("box", "");
   closeOverlay();
 
+  // Clearing Text
+  document.getElementById("text-input2").innerHTML = "";
+
   // Adjusting language label
   const languageLabel = document.querySelector(
     `.input-container.input${currentBoxId} .language-label`,
