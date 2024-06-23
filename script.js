@@ -191,6 +191,7 @@ function closeOverlay() {
 
 async function selectLanguage(language, flagSrc) {
   language = language.replace(/standard/gi, "").trim();
+  language = language.replace(/modern/gi, "").trim();
 
   const box = document.getElementById(currentBox);
   box.querySelector(".box-text").innerText = language;
@@ -302,6 +303,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       var language_list = language_list.filter(
         (item) => !item.toLowerCase().includes("language"),
       );
+
+      // Choosing One With 100%
       const itemWith100Percent = language_list.find((item) =>
         item.includes("100%"),
       );
