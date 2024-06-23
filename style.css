@@ -58,7 +58,7 @@ body {
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
-  z-index: 999;
+  z-index: 700;
   max-width: 520px;
 }
 
@@ -176,7 +176,7 @@ body {
   z-index: 800;
   align-items: center;
   justify-content: center;
-  padding: 10vw;
+  padding: 9vw;
   box-sizing: border-box;
 }
 
