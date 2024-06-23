@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const countElement = document.getElementById("count");
     let start = 0;
     const end = 3756; // The number to count up to
-    const duration = 4000; // Duration of the counting animation in milliseconds
+    const duration = 3000; // Duration of the counting animation in milliseconds
 
     const increment = end / (duration / 16.67); // 16.67ms per frame (60fps)
     const step = () => {
