@@ -449,15 +449,25 @@ async function translateText() {
 
     // Pronunciation extraction
     let match = translation.match(/\[(.*?)\]/);
-    let pronounce = match ? match[1] : "";
+    let pronounce = match ? `[${match[1]}]` : "";
 
     if (pronounce) {
       // Check if pronounce is not empty
-      let parentElement = document.querySelector(".input-container.input2");
       let newBox = document.createElement("div");
-      newBox.className = "pronunciation-box"; // Example class name
-      newBox.textContent = pronounce; // Example text content
-      parentElement.appendChild(newBox);
+      newBox.className = "pronunciation-text";
+      newBox.textContent = pronounce;
+      newBox.style.opacity = "0.5";
+
+      // Find the existing .input-container.input2 element
+      let existingContainer = document.querySelector(".input-container.input2");
+
+      // Create the pronunciation box
+      let pronunciationBox = document.createElement("div");
+      pronunciationBox.className = "pronunciation-box";
+
+      // Append the pronunciation box and then the new pronunciation text
+      existingContainer.appendChild(pronunciationBox);
+      pronunciationBox.appendChild(newBox);
     }
   } catch (error) {
     console.error("Error:", error);

@@ -156,22 +156,26 @@
 
       <!-- Input1 -->
       <div class="input-container input1">
-        <span class="language-label">English</span>
-        <div
-          class="text-input"
-          id="text-input1"
-          contenteditable="true"
-          onfocus="clearPlaceholder(this)"
-          data-placeholder="Enter text to translate.."
-        ></div>
+        <div class="input-wrapper">
+          <span class="language-label">English</span>
+        </div>
+        <div class="input-wrapper">
+          <div
+            class="text-input"
+            id="text-input1"
+            contenteditable="true"
+            onfocus="clearPlaceholder(this)"
+            data-placeholder="Enter text to translate.."
+          ></div>
 
-        <img
-          src="icons/microphone.svg"
-          alt="Microphone"
-          class="icon microphone"
-          id="recordButton"
-          onclick="toggleRecording()"
-        />
+          <img
+            src="icons/microphone.svg"
+            alt="Microphone"
+            class="icon microphone"
+            id="recordButton"
+            onclick="toggleRecording()"
+          />
+        </div>
       </div>
 
       <!-- Translate Button -->
@@ -188,28 +192,32 @@
       <!-- Input2 -->
 
       <div class="input-container input2">
-        <span class="language-label">Parisian French</span>
-        <div
-          class="text-input"
-          id="text-input2"
-          contenteditable="true"
-          onfocus="clearPlaceholder(this)"
-          data-placeholder="Saisissez le texte à traduire.."
-        ></div>
-        <img
-          src="icons/microphone.svg"
-          alt="Microphone"
-          class="icon microphone"
-          id="recordButton"
-          onclick="toggleRecording()"
-        />
-        <audio id="audioPlayer"></audio>
-        <div>
-          <button
-            type="button"
-            id="playButton"
-            onclick="document.getElementById('audioPlayer').play()"
-          ></button>
+        <div class="input-wrapper">
+          <span class="language-label">Parisian French</span>
+        </div>
+        <div class="input-wrapper">
+          <div
+            class="text-input"
+            id="text-input2"
+            contenteditable="true"
+            onfocus="clearPlaceholder(this)"
+            data-placeholder="Saisissez le texte à traduire.."
+          ></div>
+          <img
+            src="icons/microphone.svg"
+            alt="Microphone"
+            class="icon microphone"
+            id="recordButton"
+            onclick="toggleRecording()"
+          />
+          <audio id="audioPlayer"></audio>
+          <div>
+            <button
+              type="button"
+              id="playButton"
+              onclick="document.getElementById('audioPlayer').play()"
+            ></button>
+          </div>
         </div>
       </div>
     </div>
