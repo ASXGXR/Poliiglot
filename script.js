@@ -438,20 +438,27 @@ async function translateText() {
       .replace(/\${text}/g, text);
 
     // ChatGPT Request (Translation)
-    console.log(system);
-    console.log(prompt);
     const botMessage = await chatgptRequest("gpt-4", system, prompt, key);
-    console.log(botMessage);
     var translation = botMessage.split("Translation:")[1].trim();
-    console.log(translation);
-
     var translation_t = translation.split("[")[0].split("(")[0].trim();
 
     // Display the translation in the second input box
-    textInput2.innerHTML = translation;
-
-    // Call the function to adjust font size
+    textInput2.innerHTML = translation_t;
+    // Adjust font size
     adjustFontSizeOfInputs();
+
+    // Pronunciation extraction
+    let match = translation.match(/\[(.*?)\]/);
+    let pronounce = match ? match[1] : "";
+
+    if (pronounce) {
+      // Check if pronounce is not empty
+      let parentElement = document.querySelector(".input-container.input2");
+      let newBox = document.createElement("div");
+      newBox.className = "pronunciation-box"; // Example class name
+      newBox.textContent = pronounce; // Example text content
+      parentElement.appendChild(newBox);
+    }
   } catch (error) {
     console.error("Error:", error);
     textInput2.value =
