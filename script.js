@@ -1,3 +1,21 @@
+// URL to the server-side file
+const fileUrl = "https://poliiglot.com/public_html/api.txt"; // Ensure this URL is correct
+
+// Fetch the file contents when the page loads
+fetch(fileUrl)
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error("Network response was not ok " + response.statusText);
+    }
+    return response.text();
+  })
+  .then((data) => {
+    console.log("File contents:", data);
+  })
+  .catch((error) => {
+    console.error("There was a problem with the fetch operation:", error);
+  });
+
 // Reused Functions
 
 async function getPrompt(promptNumber) {
@@ -461,6 +479,13 @@ async function translateText() {
       // Find the existing .input-container.input2 element
       let existingContainer = document.querySelector(".input-container.input2");
 
+      // Check if a pronunciation box already exists and remove it if present
+      let existingPronunciationBox =
+        existingContainer.querySelector(".pronunciation-box");
+      if (existingPronunciationBox) {
+        existingContainer.removeChild(existingPronunciationBox);
+      }
+
       // Create the pronunciation box
       let pronunciationBox = document.createElement("div");
       pronunciationBox.className = "pronunciation-box";
@@ -583,7 +608,6 @@ window.toggleRecording = toggleRecording;
 // TTS
 
 async function addTTS(inputText) {
-  console.log(inputText);
   const selectedVoice = "alloy";
   const selectedModel = "tts-1";
   const apiUrl = "https://api.openai.com/v1/audio/speech";
